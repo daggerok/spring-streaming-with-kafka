@@ -1,0 +1,57 @@
+buildscript {
+
+    repositories { mavenCentral() }
+    dependencies { classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE' }
+}
+
+allprojects {
+
+    version = '1'
+    group = 'con.daggerok'
+
+    apply plugin: 'idea'
+    apply plugin: 'java'
+
+    targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+}
+
+subprojects {
+
+    apply plugin: 'spring-boot'
+
+    springBoot { executable = true }
+
+    dependencies {
+
+        compile 'org.projectlombok:lombok:1.16.8',
+                'org.springframework.cloud:spring-cloud-starter-stream-kafka'
+
+        testCompile 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    dependencyManagement {
+        imports { mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.BUILD-SNAPSHOT' }
+    }
+}
+
+project('Greater') {
+    jar { baseName = 'greater' }
+}
+
+project('UpperCaser') {
+    jar { baseName = 'uppercaser' }
+}
+
+project('Doubler') {
+    jar { baseName = 'doubler' }
+}
+
+project('LogReceiver') {
+    jar { baseName = 'logreceiver' }
+}
