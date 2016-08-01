@@ -17,4 +17,4 @@ include 'services:webservice'
 */
 
 rootProject.name = 'Streaming'
-include 'Greater', 'UpperCaser', 'Doubler', 'LogReceiver'
+include 'Api', 'Greater', 'Doubler', 'UpperCaser', 'Logger'

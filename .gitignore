@@ -1,7 +1,9 @@
-.gradle
-.idea
+.gradle/
+.idea/
 *.iml
 *.iws
-cllasses
-gradle
+cllasses/
+gradle/
+build/
+out/
 gradlew*

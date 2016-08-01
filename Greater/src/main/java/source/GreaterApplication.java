@@ -1,5 +1,6 @@
 package source;
 
+import api.dto.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,11 +18,11 @@ public class GreaterApplication {
     }
 
     @InboundChannelAdapter(Source.OUTPUT)
-    public Greating currentTimeInMillis() {
+    public Message currentTimeInMillis() {
 
-        final Greating greating = new Greating().setGreating("current time is: " + System.currentTimeMillis());
+        final Message greeting = new Message().setGreeting("current time is: " + System.currentTimeMillis());
 
-        log.info("producing: {}", greating);
-        return greating;
+        log.info("producing: {}", greeting);
+        return greeting;
     }
 }

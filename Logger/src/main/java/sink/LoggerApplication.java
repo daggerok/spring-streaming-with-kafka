@@ -10,13 +10,14 @@ import org.springframework.integration.annotation.ServiceActivator;
 @Slf4j
 @SpringBootApplication
 @EnableBinding(Sink.class)
-public class LogReceiverApplication {
+public class LoggerApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(LogReceiverApplication.class, args);
+        SpringApplication.run(LoggerApplication.class, args);
     }
 
     @ServiceActivator(inputChannel = Sink.INPUT)
-    public void logger(String message) {
-        log.info("received: {}", message);
+    public void logMessage(String message) {
+        log.info("received: '{}'", message);
     }
 }

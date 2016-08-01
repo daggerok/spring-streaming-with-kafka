@@ -1,11 +1,9 @@
 buildscript {
-
     repositories { mavenCentral() }
     dependencies { classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE' }
 }
 
 allprojects {
-
     version = '1'
     group = 'con.daggerok'
 
@@ -15,6 +13,7 @@ allprojects {
     targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
 
     repositories {
+        jcenter()
         mavenCentral()
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
@@ -22,7 +21,6 @@ allprojects {
 }
 
 subprojects {
-
     apply plugin: 'spring-boot'
 
     springBoot { executable = true }
@@ -40,18 +38,26 @@ subprojects {
     }
 }
 
-project('Greater') {
-    jar { baseName = 'greater' }
+project(':Api') {
+    jar { baseName = 'api' }
 }
 
-project('UpperCaser') {
+project(':Greater') {
+    jar { baseName = 'greater' }
+    dependencies { compile project(':Api') }
+}
+
+project(':UpperCaser') {
+    dependencies { compile project(':Greater') }
     jar { baseName = 'uppercaser' }
 }
 
-project('Doubler') {
+project(':Doubler') {
+    dependencies { compile project(':UpperCaser') }
     jar { baseName = 'doubler' }
 }
 
-project('LogReceiver') {
-    jar { baseName = 'logreceiver' }
+project(':Logger') {
+    dependencies { compile project(':Doubler') }
+    jar { baseName = 'logger' }
 }

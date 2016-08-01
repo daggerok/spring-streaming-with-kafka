@@ -1,4 +1,4 @@
-package source;
+package api.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +12,6 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class Greating implements Serializable {
-    String greating;
+public class Message implements Serializable {
+    String greeting;
 }

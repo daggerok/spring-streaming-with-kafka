@@ -8,7 +8,7 @@ for testing run in order:
 - GreaterApplication
 - UpperCaserApplication
 - DoublerApplication
-- LogReceiverApplication
+- LoggerApplication
 
 [kafka (docker)](http://wurstmeister.github.io/kafka-docker):
 ```sh

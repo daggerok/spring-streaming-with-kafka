@@ -21,6 +21,6 @@ public class DoublerApplication {
 
         log.info("doubling: {}", message);
 
-        return message + message;
+        return message + ", " + message;
     }
 }
