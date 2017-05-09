@@ -1,3 +1,2 @@
 // settigs.gradle is required when you are using includeBuild closure
-rootProject.name = 'Greater'
 includeBuild '../Api'

@@ -14,13 +14,11 @@ public class DoublerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(DoublerApplication.class, args);
+        log.info("start message doubler processor from uppercased to transformed");
     }
 
     @Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
     public String transform(String message) {
-
-        log.info("doubling: {}", message);
-
         return message + ", " + message;
     }
 }

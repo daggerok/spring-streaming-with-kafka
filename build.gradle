@@ -5,7 +5,7 @@ plugins {
 }
 
 allprojects {
-    version = '1'
+    version = '2'
     group = 'con.daggerok'
 
     apply plugin: 'java'
@@ -22,8 +22,8 @@ allprojects {
 
 subprojects {
 
-    apply plugin: 'io.spring.dependency-management'
     apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
 
     dependencyManagement {
         imports {
@@ -36,35 +36,66 @@ subprojects {
 
     dependencies {
 
-        compile 'org.projectlombok:lombok:1.16.8',
-                'org.springframework.cloud:spring-cloud-starter-stream-kafka'
-
+        compileOnly 'org.projectlombok:lombok'
+        compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
+        runtime 'org.springframework.boot:spring-boot-devtools'
         testCompile 'org.springframework.boot:spring-boot-starter-test'
     }
 }
 
 project(':Api') {
-    jar { baseName = 'api' }
+    jar.baseName = 'api'
+    bootRepackage.enabled = false
 }
 
 project(':Greater') {
-    jar { baseName = 'greater' }
-    dependencies { compileOnly project(':Api') }
+    jar.baseName = 'greater'
+    dependencies { compile project(':Api') }
+}
+
+project(':MessagesReceiver') {
+    jar.baseName = 'messages-receiver'
+    test.dependsOn ':Greater:test'
+    test.shouldRunAfter ':Greater:test'
 }
 
 project(':UpperCaser') {
-    jar { baseName = 'uppercaser' }
-    dependencies { compileOnly project(':Api') }
+    jar.baseName = 'upper-caser'
+    dependencies { compile project(':Api') }
+    test.dependsOn ':Greater:test'
+    test.shouldRunAfter ':Greater:test'
 }
 
 project(':Doubler') {
-    jar { baseName = 'doubler' }
+    jar.baseName = 'doubler'
+    test.dependsOn ':UpperCaser:test'
+    test.shouldRunAfter ':UpperCaser:test'
 }
 
 project(':Logger') {
-    jar { baseName = 'logger' }
+    jar.baseName = 'logger'
+    test.dependsOn ':Doubler:test'
+    test.shouldRunAfter ':Doubler:test'
 }
 
-project(':LogReceiver') {
-    jar { baseName = 'log-receiver' }
+def dockerCompose = 'docker-compose -f kafka-docker/docker-compose-single-broker.yml'
+
+task composeUp(type: Exec) {
+    executable 'bash'
+    args '-c', """
+                    $dockerCompose down -v \
+                    && $dockerCompose up -d --build \
+                    && echo "waiting 15 seconds for kafka bootstrap..." \
+                    && sleep 15
+               """
+}
+
+task composeDown(type: Exec) {
+    executable 'bash'
+    args '-c', "$dockerCompose down -v"
+}
+
+project.subprojects.each { subProject ->
+    subProject.test.dependsOn composeUp
+    subProject.test.finalizedBy composeDown
 }

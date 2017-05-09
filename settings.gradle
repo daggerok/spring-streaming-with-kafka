@@ -1,2 +1,2 @@
-rootProject.name = 'streaming'
-include 'Api', 'Greater', 'Doubler', 'UpperCaser', 'Logger', 'LogReceiver'
+rootProject.name = 'spring-streaming-with-kafka'
+include 'Api', 'Greater', 'Doubler', 'UpperCaser', 'Logger', 'MessagesReceiver'

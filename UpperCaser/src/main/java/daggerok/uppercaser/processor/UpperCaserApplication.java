@@ -13,17 +13,15 @@ import org.springframework.messaging.handler.annotation.SendTo;
 @SpringBootApplication
 @EnableBinding(Processor.class)
 public class UpperCaserApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(UpperCaserApplication.class, args);
+        log.info("start upper-casing process from messages to uppercased");
     }
 
     @StreamListener(Processor.INPUT)
     @SendTo(Processor.OUTPUT)
     public Message toUpperCase(String message) {
-
-        final Message result = new Message().setGreeting(message.toUpperCase());
-
-        log.info("received: {}", result);
-        return result;
+        return new Message().setGreeting(message.toUpperCase());
     }
 }

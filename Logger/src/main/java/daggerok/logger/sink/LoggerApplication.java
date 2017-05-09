@@ -18,6 +18,6 @@ public class LoggerApplication {
 
     @ServiceActivator(inputChannel = Sink.INPUT)
     public void logMessage(String message) {
-        log.info("received: '{}'", message);
+        log.info("transformed message received: '{}'", message);
     }
 }
