@@ -1,9 +1,11 @@
-.gradle/
 .idea/
+*.ipr
 *.iml
 *.iws
 cllasses/
-gradle/
 build/
 out/
-gradlew*
+.gradle/
+gradle/
+!gradle/wrapper
+!gradlew*

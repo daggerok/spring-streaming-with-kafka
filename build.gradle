@@ -1,13 +1,13 @@
-buildscript {
-    repositories { mavenCentral() }
-    dependencies { classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE' }
+plugins {
+    id 'idea'
+    id 'org.springframework.boot' version '1.5.3.RELEASE' apply false
+    id 'io.spring.dependency-management' version '1.0.2.RELEASE' apply false
 }
 
 allprojects {
     version = '1'
     group = 'con.daggerok'
 
-    apply plugin: 'idea'
     apply plugin: 'java'
 
     targetCompatibility = sourceCompatibility = JavaVersion.VERSION_1_8
@@ -21,7 +21,16 @@ allprojects {
 }
 
 subprojects {
-    apply plugin: 'spring-boot'
+
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    dependencyManagement {
+        imports {
+            mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.3.RELEASE'
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.BUILD-SNAPSHOT'
+        }
+    }
 
     springBoot { executable = true }
 
@@ -32,10 +41,6 @@ subprojects {
 
         testCompile 'org.springframework.boot:spring-boot-starter-test'
     }
-
-    dependencyManagement {
-        imports { mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.BUILD-SNAPSHOT' }
-    }
 }
 
 project(':Api') {
@@ -44,20 +49,22 @@ project(':Api') {
 
 project(':Greater') {
     jar { baseName = 'greater' }
-    dependencies { compile project(':Api') }
+    dependencies { compileOnly project(':Api') }
 }
 
 project(':UpperCaser') {
-    dependencies { compile project(':Greater') }
     jar { baseName = 'uppercaser' }
+    dependencies { compileOnly project(':Api') }
 }
 
 project(':Doubler') {
-    dependencies { compile project(':UpperCaser') }
     jar { baseName = 'doubler' }
 }
 
 project(':Logger') {
-    dependencies { compile project(':Doubler') }
     jar { baseName = 'logger' }
+}
+
+project(':LogReceiver') {
+    jar { baseName = 'log-receiver' }
 }
