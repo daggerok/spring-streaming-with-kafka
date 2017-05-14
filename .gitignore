@@ -1,3 +1,4 @@
+.DS_Store
 *.ipr
 *.iml
 *.iws
@@ -10,4 +11,3 @@ gradle/
 !gradlew*
 .idea/
 !*.idea/runConfigurations
-
