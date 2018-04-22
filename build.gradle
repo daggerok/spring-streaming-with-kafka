@@ -99,3 +99,7 @@ project.subprojects.each { subProject ->
     subProject.test.dependsOn composeUp
     subProject.test.finalizedBy composeDown
 }
+
+task wrapper(type: Wrapper) {
+  gradleVersion = "4.7"
+}
