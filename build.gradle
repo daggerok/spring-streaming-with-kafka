@@ -1,5 +1,8 @@
 plugins {
     id 'idea'
+    id 'base'
+    id 'eclipse'
+    id 'com.avast.gradle.docker-compose' version '0.6.13'
     id 'org.springframework.boot' version '1.5.12.RELEASE' apply false
     id 'io.spring.dependency-management' version '1.0.5.RELEASE' apply false
 }
@@ -78,6 +81,7 @@ project(':Logger') {
     test.shouldRunAfter ':Doubler:test'
 }
 
+/*
 def dockerCompose = 'docker-compose -f kafka-docker/docker-compose-single-broker.yml'
 
 task composeUp(type: Exec) {
@@ -93,6 +97,23 @@ task composeUp(type: Exec) {
 task composeDown(type: Exec) {
     executable 'bash'
     args '-c', "$dockerCompose down -v"
+}
+*/
+
+def profile = project.hasProperty("profile") ? project.getProperty("profile") : "single-broker"
+
+dockerCompose {
+  useComposeFiles = [project.file("kafka-docker/docker-compose-${profile}.yml")]
+  // captureContainersOutput = true
+  captureContainersOutput = false
+  stopContainers = true
+  removeContainers = true
+  removeImages = "Local"
+  removeVolumes = true
+  removeOrphans = true
+  forceRecreate = true
+  waitForTcpPorts = false
+  projectName = project.name
 }
 
 project.subprojects.each { subProject ->
