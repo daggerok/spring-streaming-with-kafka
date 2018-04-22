@@ -10,3 +10,8 @@ out/
 !gradlew*
 .idea/
 !*.idea/runConfigurations
+.sts4-cache
+.classpath
+.project
+.settings
+bin/
