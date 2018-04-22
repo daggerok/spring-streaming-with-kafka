@@ -5,7 +5,6 @@
 cllasses/
 build/
 out/
-.gradle/
 gradle/
 !gradle/wrapper
 !gradlew*
