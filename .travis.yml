@@ -4,34 +4,36 @@ service:
 language: java
 jdk: oraclejdk8
 
-env:
-  DOCKER_COMPOSE_VERSION: 1.12.0
-
 install: true
 before_install:
-  # gradle
-  - curl -s "https://get.sdkman.io" | bash
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  - sdk selfupdate
-  - touch "$HOME/.sdkman/etc/config"
-  - sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
-  - sdk use gradle
-  - sdk install gradle
-  - mkdir -p "$HOME/.sdkman/etc"
-  - sdk use gradle
-  - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  # docker-compose
-  - sudo rm -rf /usr/local/bin/docker-compose
-  - export DOCKER_COPOSE_URL=https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)
-  - curl -L $DOCKER_COPOSE_URL > docker-compose
-  - chmod +x docker-compose
-  - sudo mv -f docker-compose /usr/local/bin
+  ## gradle
+  #- curl -s "https://get.sdkman.io" | bash
+  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
+  #- sdk selfupdate
+  #- touch "$HOME/.sdkman/etc/config"
+  #- sed -i -e 's/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g' "$HOME/.sdkman/etc/config"
+  #- sdk use gradle
+  #- sdk install gradle
+  #- mkdir -p "$HOME/.sdkman/etc"
+  #- sdk use gradle
+  #- source "$HOME/.sdkman/bin/sdkman-init.sh"
+  ## docker-compose
+  #- sudo rm -rf /usr/local/bin/docker-compose
+  #- export DOCKER_COPOSE_URL=https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)
+  #- curl -L $DOCKER_COPOSE_URL > docker-compose
+  #- chmod +x docker-compose
+  #- sudo mv -f docker-compose /usr/local/bin
+- sudo apt -y update || true >/dev/null 2>&1
+- sudo apt install -y --no-install-recommends wget bash curl jq libxml2-utils docker-ce python-pip >/dev/null 2>&1
+- sudo pip install docker-compose httpie >/dev/null 2>&1
+- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+- stop_any 5432 5672 27017 8080 80
 
 script:
-  - gradle clean build
+- bash gradlew clean build
 
 after_script:
-  - gradle --stop
+- bash gradlew --stop
 
 cache:
   directories:
