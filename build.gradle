@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
-    id 'org.springframework.boot' version '1.5.3.RELEASE' apply false
-    id 'io.spring.dependency-management' version '1.0.2.RELEASE' apply false
+    id 'org.springframework.boot' version '1.5.12.RELEASE' apply false
+    id 'io.spring.dependency-management' version '1.0.5.RELEASE' apply false
 }
 
 allprojects {
@@ -27,8 +27,8 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.3.RELEASE'
-            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.BUILD-SNAPSHOT'
+            mavenBom 'org.springframework.boot:spring-boot-dependencies:1.5.12.RELEASE'
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Brixton.RELEASE'
         }
     }
 
