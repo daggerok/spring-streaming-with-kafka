@@ -23,7 +23,7 @@ before_install:
   #- curl -L $DOCKER_COPOSE_URL > docker-compose
   #- chmod +x docker-compose
   #- sudo mv -f docker-compose /usr/local/bin
-- sudo apt -y update || true >/dev/null 2>&1
+- sudo apt -y update >/dev/null 2>&1 || true
 - sudo apt install -y --no-install-recommends wget bash curl jq libxml2-utils docker-ce python-pip >/dev/null 2>&1
 - sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
