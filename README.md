@@ -1,5 +1,4 @@
-Streaming (spring spring-cloud-stream kafka) [![Build Status](https://travis-ci.org/daggerok/spring-streaming-with-kafka.svg?branch=master)](https://travis-ci.org/daggerok/spring-streaming-with-kafka)
-============================================
+# Streaming (spring spring-cloud-stream kafka) [![Build Status](https://travis-ci.org/daggerok/spring-streaming-with-kafka.svg?branch=master)](https://travis-ci.org/daggerok/spring-streaming-with-kafka)
 
 Greater -> (messages) -> GreatingHandler -> (uppercased) -> Doubler -> (transformed) -> LogReceiver
 
@@ -39,4 +38,12 @@ for testing run in order:
 # docker-compose -f docker-compose-single-broker.yml up -d
 gradle composeUp
 gradle composeDown
+```
+
+_other way to run kafka in docker-compose_
+
+```bash
+git clone --depth=1 https://github.com/confluentinc/cp-docker-images.git
+docker-compose -f cp-docker-images/examples/kafka-single-node/docker-compose.yml up -d
+# docker-compose -f cp-docker-images/examples/kafka-single-node/docker-compose.yml down -v --rmi local
 ```
