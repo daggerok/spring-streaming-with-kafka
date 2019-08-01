@@ -6,17 +6,17 @@ jdk: openjdk8
 
 addons:
   apt:
-  packages:
-  - jq
-  - bash
-  - curl
-  - sudo
-  - lsof
-  - unzip
-  - wget
-  - ibxml2-utils
-  - docker-ce
-  - python-pip    
+    packages:
+    - jq
+    - bash
+    - curl
+    - sudo
+    - lsof
+    - unzip
+    - wget
+    - ibxml2-utils
+    - docker-ce
+    - python-pip    
 
 install: true
 before_install:
@@ -24,13 +24,19 @@ before_install:
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 5432 5672 27017 8080 80
 
+#before_script:
+#- git clone --depth=1 https://github.com/confluentinc/cp-docker-images.git /tmp/c
+#- docker-compose -f /tmp/c/examples/kafka-single-node/docker-compose.yml up -d
+
 script:
 - bash gradlew clean build
 
 after_script:
+#- docker-compose -f /tmp/c/examples/kafka-single-node/docker-compose.yml down -v --rmi local
 - bash gradlew --stop
 
 cache:
   directories:
     - $HOME/.gradle/
     - .gradle/
+    - .docker/
