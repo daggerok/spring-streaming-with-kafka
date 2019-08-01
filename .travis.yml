@@ -17,11 +17,22 @@ addons:
     - python-pip    
 install: true
 before_install:
+# gradle
+- curl -s "https://get.sdkman.io" | bash
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+- sed -i -e s/^sdkman_auto_answer=false$/sdkman_auto_answer=true/g "$HOME/.sdkman/etc/config"
+- source "$HOME/.sdkman/bin/sdkman-init.sh"
+- sdk install springboot 2.1.6.RELEASE
+- sdk use springboot 2.1.6.RELEASE
+- spring install org.springframework.cloud:spring-cloud-cli:2.1.0.RELEASE
 - sudo pip install httpie >/dev/null 2>&1
 #- sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 2181 9092 5432 5672 27017 8080 80
-#before_script:
+before_script:
+- spring cloud --list
+- spring cloud kafka &
+- sleep 15s 
 #- git clone --depth=1 https://github.com/confluentinc/cp-docker-images.git /tmp/c
 #- docker-compose -f /tmp/c/examples/kafka-single-node/docker-compose.yml up -d
 script:
@@ -29,8 +40,11 @@ script:
 after_script:
 #- docker-compose -f /tmp/c/examples/kafka-single-node/docker-compose.yml down -v --rmi local
 - bash gradlew --stop
+- stop_any 9092 2181
+- killall -9 java || echo 'oops...'
 cache:
   directories:
     - ~/.gradle/
     - ~/.docker/
+    - ~/.m2/
 

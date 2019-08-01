@@ -2,7 +2,7 @@ plugins {
     id 'idea'
     id 'base'
     id 'eclipse'
-    id 'com.avast.gradle.docker-compose' version '0.9.4'
+    //id 'com.avast.gradle.docker-compose' version '0.9.4'
     id 'org.springframework.boot' version '1.5.12.RELEASE' apply false
     id 'io.spring.dependency-management' version '1.0.8.RELEASE' apply false
 }
@@ -22,7 +22,6 @@ allprojects {
 }
 
 subprojects {
-
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
@@ -36,7 +35,6 @@ subprojects {
     springBoot { executable = true }
 
     dependencies {
-
         compileOnly 'org.projectlombok:lombok'
         testCompileOnly 'org.projectlombok:lombok'
         compile 'org.springframework.cloud:spring-cloud-starter-stream-kafka'
@@ -48,6 +46,7 @@ subprojects {
 project(':Api') {
     jar.baseName = 'api'
     bootRepackage.enabled = false
+    bootRun.enabled = false
 }
 
 project(':Greater') {
@@ -99,7 +98,9 @@ task composeDown(type: Exec) {
 }
 */
 
+/*
 dockerCompose {
+  useComposeFiles = [project.file("$project.rootDir/kafka-docker/docker-compose-single-broker.yml")]
   // captureContainersOutput = true
   captureContainersOutput = false
   stopContainers = true
@@ -119,4 +120,21 @@ project.subprojects.each { subProject ->
 
 task wrapper(type: Wrapper) {
   gradleVersion = "4.7"
+}
+*/
+
+test {
+    // useJUnitPlatform() // comment this out to run spock specs!
+    // see: https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.logging.TestLoggingContainer.html
+    testLogging {
+        showExceptions = true
+        showStandardStreams = true
+        // set options for log level LIFECYCLE
+        events 'passed', 'skipped', 'failed'
+        // set options for log level DEBUG
+        debug {
+            events 'started', 'skipped', 'failed'
+            exceptionFormat 'full'
+        }
+    }
 }

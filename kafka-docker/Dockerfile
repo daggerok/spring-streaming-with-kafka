@@ -2,14 +2,12 @@ FROM openjdk:8u151-jre-alpine
 
 ARG kafka_version=1.1.0
 ARG scala_version=2.12
-ARG glibc_version=2.27-r0
 
 MAINTAINER wurstmeister
 
 ENV KAFKA_VERSION=$kafka_version \
     SCALA_VERSION=$scala_version \
-    KAFKA_HOME=/opt/kafka \
-    GLIBC_VERSION=$glibc_version
+    KAFKA_HOME=/opt/kafka
 
 ENV PATH=${PATH}:${KAFKA_HOME}/bin
 
@@ -23,10 +21,7 @@ RUN apk add --no-cache bash curl jq docker \
  && tar xfz /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz -C /opt \
  && rm /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz \
  && ln -s /opt/kafka_${SCALA_VERSION}-${KAFKA_VERSION} /opt/kafka \
- && rm /tmp/* \
- && wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VERSION}/glibc-${GLIBC_VERSION}.apk \
- && apk add --no-cache --allow-untrusted glibc-${GLIBC_VERSION}.apk \
- && rm glibc-${GLIBC_VERSION}.apk
+ && rm /tmp/*
 
 VOLUME ["/kafka"]
 
