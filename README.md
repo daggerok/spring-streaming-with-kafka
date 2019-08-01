@@ -1,4 +1,8 @@
-# Streaming (spring spring-cloud-stream kafka) [![Build Status](https://travis-ci.org/daggerok/spring-streaming-with-kafka.svg?branch=master)](https://travis-ci.org/daggerok/spring-streaming-with-kafka)
+# Streaming (spring spring-cloud-stream kafka)
+
+<!--
+[![Build Status](https://travis-ci.org/daggerok/spring-streaming-with-kafka.svg?branch=master)](https://travis-ci.org/daggerok/spring-streaming-with-kafka)
+-->
 
 Greater -> (messages) -> GreatingHandler -> (uppercased) -> Doubler -> (transformed) -> LogReceiver
 
