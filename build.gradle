@@ -2,13 +2,13 @@ plugins {
     id 'idea'
     id 'base'
     id 'eclipse'
-    id 'com.avast.gradle.docker-compose' version '0.6.13'
+    id 'com.avast.gradle.docker-compose' version '0.9.4'
     id 'org.springframework.boot' version '1.5.12.RELEASE' apply false
-    id 'io.spring.dependency-management' version '1.0.5.RELEASE' apply false
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE' apply false
 }
 
 allprojects {
-    version = '2'
+    version = '3'
     group = 'con.daggerok'
 
     apply plugin: 'java'
@@ -99,10 +99,7 @@ task composeDown(type: Exec) {
 }
 */
 
-def profile = project.hasProperty("profile") ? project.getProperty("profile") : "single-broker"
-
 dockerCompose {
-  useComposeFiles = [project.file("kafka-docker/docker-compose-${profile}.yml")]
   // captureContainersOutput = true
   captureContainersOutput = false
   stopContainers = true

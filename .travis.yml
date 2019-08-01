@@ -1,9 +1,7 @@
 service:
 - docker
-
 language: java
 jdk: openjdk8
-
 addons:
   apt:
     packages:
@@ -17,26 +15,22 @@ addons:
     - libxml2-utils
     - docker-ce
     - python-pip    
-
 install: true
 before_install:
-- sudo pip install docker-compose httpie >/dev/null 2>&1
+- sudo pip install httpie >/dev/null 2>&1
+#- sudo pip install docker-compose httpie >/dev/null 2>&1
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-- stop_any 5432 5672 27017 8080 80
-
+- stop_any 2181 9092 5432 5672 27017 8080 80
 #before_script:
 #- git clone --depth=1 https://github.com/confluentinc/cp-docker-images.git /tmp/c
 #- docker-compose -f /tmp/c/examples/kafka-single-node/docker-compose.yml up -d
-
 script:
-- bash gradlew clean build
-
+- ./gradlew clean build
 after_script:
 #- docker-compose -f /tmp/c/examples/kafka-single-node/docker-compose.yml down -v --rmi local
 - bash gradlew --stop
-
 cache:
   directories:
-    - $HOME/.gradle/
-    - .gradle/
-    - .docker/
+    - ~/.gradle/
+    - ~/.docker/
+

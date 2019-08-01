@@ -30,6 +30,25 @@ for testing run in order:
 - LoggerApplication
 - LogReceiverApplication (another logger)
 
+_run kafka in docker-compose_
+
+```bash
+# git clone --depth=1 https://github.com/confluentinc/cp-docker-images.git
+# docker-compose -f cp-docker-images/examples/kafka-single-node/docker-compose.yml up -d
+# docker-compose -f cp-docker-images/examples/kafka-single-node/docker-compose.yml down -v --rmi local
+## or already cloned locally:
+# docker-compose -f kafka/kafka-single-node/docker-compose.yml up -d
+# docker-compose -f kafka/kafka-single-node/docker-compose.yml down -v --rmi local
+## or:
+# docker-compose up -d
+# docker-compose down -v --rmi local
+## or just:
+./gradlew composeUp
+./gradlew composeDown
+```
+
+<!--
+
 [kafka (docker)](http://wurstmeister.github.io/kafka-docker):
 ```sh
 # git clone https://github.com/wurstmeister/kafka-docker.git
@@ -40,10 +59,5 @@ gradle composeUp
 gradle composeDown
 ```
 
-_other way to run kafka in docker-compose_
+-->
 
-```bash
-git clone --depth=1 https://github.com/confluentinc/cp-docker-images.git
-docker-compose -f cp-docker-images/examples/kafka-single-node/docker-compose.yml up -d
-# docker-compose -f cp-docker-images/examples/kafka-single-node/docker-compose.yml down -v --rmi local
-```
